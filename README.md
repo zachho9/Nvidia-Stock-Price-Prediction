@@ -5,5 +5,5 @@ Course Project for **COSC480 - Computer Programming** at the University of Cante
 - Tools:
   - Extract Nvidia Stock Data: **yfinance**
   - Data Processing: **Pandas**, **NumPy**, **Plotly**
-  - LSTM Modeling and Prediction: **TensorFlow**
+  - LSTM Modeling and Prediction: **TensorFlow Keras**
   - Web APP Deployment: **Streamlit**
