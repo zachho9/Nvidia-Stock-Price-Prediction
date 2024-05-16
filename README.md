@@ -1,14 +1,14 @@
 # Nvidia-Stock-Price-Prediction
-Course Project for **COSC480 - Computer Programming** at the University of Canterbury
-### Web APP:
-- Platform: Streamlit Community Cloud
-- Link: https://nvidia-stock-price-prediction.streamlit.app/
+### Course Project for COSC480 - Computer Programming at the University of Canterbury
 - Language: **Python**
 - Tools:
   - Extract Nvidia Stock Data: **yfinance**
-  - Data Processing: **Pandas**, **NumPy**, **Plotly**
+  - Data Wrangling and Visualization: **Pandas**, **NumPy**, **Plotly**
   - LSTM Modeling and Prediction: **TensorFlow Keras**
   - Web APP Dev: **Streamlit**
+### Play with Web APP:
+- Platform: Streamlit Community Cloud
+- Link: https://nvidia-stock-price-prediction.streamlit.app/
 ### Run on Local Machine: 
 - Install above Python libraries in **conda**.
 - ```streamlit run nvda.py```
