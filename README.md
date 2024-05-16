@@ -3,7 +3,6 @@ Course Project for **COSC480 - Computer Programming** at the University of Cante
 - Web APP:
   - Platform: Streamlit Community Cloud
   - Link: https://nvidia-stock-price-prediction.streamlit.app/
-  - File: nvda.py
   - Language: **Python**
   - Tools:
     - Extract Nvidia Stock Data: **yfinance**
@@ -12,6 +11,5 @@ Course Project for **COSC480 - Computer Programming** at the University of Cante
     - Web APP Dev: **Streamlit**
 - Run on Local Machine:
   - Environment: **conda**
-  - File: nvda_local.py
   - Install libraries above.
-  - Deploy: ```streamlit run nvda_local.py```
+  - Deploy: ```streamlit run nvda.py```
