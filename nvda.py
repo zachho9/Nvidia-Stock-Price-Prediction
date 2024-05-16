@@ -26,10 +26,11 @@ class PriceChart:
         
         self.df = df
     
-    def plot_chart(self):
+    @st.cache_data
+    def plot_chart(_self):
         """Plot chart with streamlit."""
         
-        st.line_chart(self.df)      
+        st.line_chart(_self.df)      
     
 
 ## SECTION 1: extract Nvidia stock data from Yahoo! Finance.
@@ -69,7 +70,7 @@ def convert_date_column(stock_data, filename):
 
 ## SECTION 3: Predict Nvidia stock price
 
-@st.cache_data
+# @st.cache_data
 def read_df(filename):
     """Load local csv file in case web data unobtainable."""
 
