@@ -243,7 +243,7 @@ def run_app():
     
     if end_date > datetime.datetime.strptime('2000-01-01', '%Y-%m-%d').date() and end_date <= today:
         st.write("The End Date you select is:", end_date)
-        st.write("You can change the End Date multiple times to see different full data and predictions, have fun!")
+        st.markdown('***You can change the End Date multiple times to see different full data and predictions, have fun!***')
     elif end_date > today:
         st.write("Bummer! We are not a time machine. Can't fetch future data! Please select a valid date.")
         return
