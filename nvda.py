@@ -1,7 +1,7 @@
 """ This Python script will extract Nvidia stock price (NASDAQ: NVDA) from Yahoo! Finance,
     conduct some data analysis and visualization,
     and make prediction for the next 5 trading days afterwards with Long Short-Term Memory (LSTM) model.
-`   This script is for learning purpose ONLY.
+    This script is for learning purpose ONLY.
     NO prediction accuracy is guaranteed. DO YOUR OWN RESEARCH before investing your money.
 """
 
