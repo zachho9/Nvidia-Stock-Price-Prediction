@@ -9,7 +9,7 @@ Course Project for **COSC480 - Computer Programming** at the University of Cante
     - Extract Nvidia Stock Data: **yfinance**
     - Data Processing: **Pandas**, **NumPy**, **Plotly**
     - LSTM Modeling and Prediction: **TensorFlow Keras**
-    - Web APP Deployment: **Streamlit**
+    - Web APP Dev: **Streamlit**
 - Run on Local Machine:
   - Environment: **conda**
   - File: nvda_local.py
