@@ -231,7 +231,7 @@ def run_app():
 
     st.title("Nvidia Stock Price Prediction :chart_with_upwards_trend:")
     st.write("Please note:")
-    st.write("- Date format is YYYY-MM-DD.\n - The data starts from 2000-01-01, and End Date needs to be valid to proceed.\n - The data contained trading day only.")
+    st.write("- Date format is YYYY-MM-DD.\n - The data starts from 2000-01-01.\n - Please select a valid End Date to proceed.\n - The data contained trading day only.")
     
     
     ### SECTION 1 - Extract data and save to csv.
