@@ -34,7 +34,7 @@ class PriceChart:
 
 ## SECTION 1: extract Nvidia stock data from Yahoo! Finance.
 
-@st.cache_data(ttl='1hr')
+@st.cache_data
 def get_stock_data(ticker, start_date, end_date, interval):
     """Extract stock data from Yahoo! Finance with yfinance.
        end_date is exclusive.
@@ -46,7 +46,7 @@ def get_stock_data(ticker, start_date, end_date, interval):
     return stock_data
 
 
-@st.cache_data(ttl='1hr')
+@st.cache_data
 def convert_date_column(stock_data, filename):
     """Convert Data Column datatype."""
 
@@ -69,7 +69,7 @@ def convert_date_column(stock_data, filename):
 
 ## SECTION 3: Predict Nvidia stock price
 
-@st.cache_data(ttl='1hr')
+@st.cache_data
 def read_df(filename):
     """Load local csv file in case web data unobtainable."""
 
@@ -80,7 +80,7 @@ def read_df(filename):
     return df
 
 
-@st.cache_data(ttl='1hr')
+@st.cache_data
 def get_windowed_df(df, window_size=3):
     """Generate a dataframe including the date as index, the close price on the date,
        and the close prices of several days prior to the current day.
@@ -109,7 +109,7 @@ def get_windowed_df(df, window_size=3):
     return windowed_df
 
 
-@st.cache_data(ttl='1hr')
+@st.cache_data
 def split_train_val(windowed_df):
     """To simplify the project, the training set will begin at 03-Jan-2023, which was the first trading day in 2023,
        until two weeks before the last day of the existing data.
@@ -142,7 +142,7 @@ def split_train_val(windowed_df):
     return dates_train, X_train, y_train, dates_val, X_val, y_val
 
 
-@st.cache_resource(ttl='1hr')
+@st.cache_resource
 def build_model(X_train):
     """Stack LSTM Model.
        Reference: https://www.youtube.com/watch?v=CbTU92pbDKw
@@ -169,7 +169,7 @@ def build_model(X_train):
     return model
 
 
-@st.cache_resource(ttl='1hr')
+@st.cache_resource
 def pred_train(_model, X_train, y_train, X_val, y_val):
     """Fit and predict training set.
        Reference: https://www.youtube.com/watch?v=CbTU92pbDKw
@@ -182,7 +182,7 @@ def pred_train(_model, X_train, y_train, X_val, y_val):
     return train_predictions, val_predictions
 
 
-@st.cache_resource(ttl='1hr')
+@st.cache_resource
 def get_windowed_df_unseen(_model, df, num_new_days=5, window_size=3):
     """Generate predicted data for next 5 trading days.
     """
