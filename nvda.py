@@ -259,7 +259,7 @@ def run_app():
     df = read_df(filename)
     
     # Plot the whole price chart
-    st.subheader("Have a look at the chart:")
+    st.subheader("Have a look at the chart, and play with it:")
     st.write(f"Nvidia Stock Price Chart from 2000-01-01 to {df.index[-1].date()}:")
     full_chart = PriceChart(df)
     full_chart.plot_chart()
@@ -269,7 +269,7 @@ def run_app():
     st.header('Section 2 - Stock Trend Analysis', divider='rainbow')
     
     # Use streamlit slider to explore any time range within the full data.
-    st.subheader('Time to Play! Move the slider to choose a time range:')
+    st.subheader('Move the slider to choose a time range:')
     start_date, end_date = st.slider('', 
                                      min_value=df.index[0].date(),
                                      max_value=df.index[-1].date(),
