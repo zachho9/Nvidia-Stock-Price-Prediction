@@ -157,20 +157,20 @@ def build_model(X_train):
 
 
 @st.cache_resource
-def pred_train(model, X_train, y_train, X_val, y_val):
+def pred_train(_model, X_train, y_train, X_val, y_val):
     """Fit and predict training set.
        Reference: https://www.youtube.com/watch?v=CbTU92pbDKw
        Accessed Date: 21-Apr-2024.
     """
-    model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=100)
-    train_predictions = model.predict(X_train).flatten()
-    val_predictions = model.predict(X_val).flatten()
+    _model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=100)
+    train_predictions = _model.predict(X_train).flatten()
+    val_predictions = _model.predict(X_val).flatten()
 
     return train_predictions, val_predictions
 
 
 @st.cache_resource
-def get_windowed_df_unseen(model, df, num_new_days=5, window_size=3):
+def get_windowed_df_unseen(_model, df, num_new_days=5, window_size=3):
     """Generate predicted data for next 5 trading days.
     """
 
@@ -188,7 +188,7 @@ def get_windowed_df_unseen(model, df, num_new_days=5, window_size=3):
 
         # Predict close price on the new date(row))
         X_last_day_price = price_for_predict.reshape(1, price_for_predict.shape[0], 1).astype(np.float32)
-        y_new_day_price = model.predict(X_last_day_price).flatten()
+        y_new_day_price = _model.predict(X_last_day_price).flatten()
 
         # Merge new price data with df
         # New row starts with Date
