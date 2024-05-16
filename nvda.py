@@ -231,7 +231,7 @@ def run_app():
 
     st.title("Nvidia Stock Price Prediction :chart_with_upwards_trend:")
     st.write("Please note:")
-    st.write("- Date format is YYYY-MM-DD.\n - The data starts from 2000-01-01, and End Date needs to be valid to proceed.\n - End Date is not inclusive.\n - The data contained trading day only.")
+    st.write("- Date format is YYYY-MM-DD.\n - The data starts from 2000-01-01, and End Date needs to be valid to proceed.\n - The data contained trading day only.")
     
     
     ### SECTION 1 - Extract data and save to csv.
@@ -242,8 +242,8 @@ def run_app():
     end_date = st.date_input("Choose an End Date after 2000-01-01, but before Today! Error will occur if you don't. Try if you insist:", value='today', format='YYYY-MM-DD')
     
     if end_date > datetime.datetime.strptime('2000-01-01', '%Y-%m-%d').date() and end_date <= today:
-        st.write("The End Date you select is:", end_date)
-        st.markdown('***You can change the End Date multiple times to see different full data and predictions, have fun!***')
+        st.write("The End Date you select is:", end_date, "But End Date is not included in the full data.")
+        st.markdown('***You can change the End Date multiple times to see different datasets and predictions, have fun!***')
     elif end_date > today:
         st.write("Bummer! We are not a time machine. Can't fetch future data! Please select a valid date.")
         return
