@@ -52,14 +52,6 @@ def convert_date_column(stock_data, filename):
     return df, filename
 
 
-## SECTION 2: Conduct Exploratory Data Analysis
-
-
-
-
-
-
-
 ## SECTION 3: Predict Nvidia stock price
 
 def read_df(filename):
@@ -157,7 +149,7 @@ def build_model(X_train):
 
     return model
 
-
+@st.cache_data
 def pred_train(model, X_train, y_train, X_val, y_val):
     """Fit and predict training set.
        Reference: https://www.youtube.com/watch?v=CbTU92pbDKw
@@ -169,7 +161,7 @@ def pred_train(model, X_train, y_train, X_val, y_val):
 
     return train_predictions, val_predictions
 
-
+@st.cache_data
 def get_windowed_df_unseen(model, df, num_new_days=5, window_size=3):
     """Generate predicted data for next 5 trading days.
     """
