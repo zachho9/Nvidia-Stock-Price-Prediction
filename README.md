@@ -9,6 +9,6 @@ Course Project for **COSC480 - Computer Programming** at the University of Cante
   - LSTM Modeling and Prediction: **TensorFlow Keras**
   - Web APP Deployment: **Streamlit**
 - Run on local machine:
-  - Environment: **Conda**
+  - Environment: **conda**
   - Install libraries above.
   - Deploy: ```streamlit run nvda_local.py```
