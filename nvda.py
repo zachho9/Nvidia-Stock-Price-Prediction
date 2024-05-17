@@ -297,8 +297,8 @@ def run_app():
     min_price_date = df_se2.index[df_se2['Close'] == min_price_in_range][0].date()
     
     df_se2_range = pd.DataFrame({'Key Indicators': ['Start Price', 'End Price', 'Max Price', 'Min Price'],
-                                 'Key Dates': [start_price_date, end_price_date, max_price_date, min_price_date],
-                                 'Key Prices': [start_price_in_range, end_price_in_range, max_price_in_range, min_price_in_range]})
+                                 'Key Prices': [start_price_in_range, end_price_in_range, max_price_in_range, min_price_in_range],
+                                 'On Dates': [start_price_date, end_price_date, max_price_date, min_price_date]})
     df_se2_range['Key Prices'] = df_se2_range['Key Prices'].round(4).apply(lambda x: f"{x:.4f}")
     st.dataframe(df_se2_range, use_container_width=True)
     
