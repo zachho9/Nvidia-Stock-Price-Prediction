@@ -375,11 +375,11 @@ def run_app():
         df_val_pred = pd.concat([pd.DataFrame({'Dates_Validation': dates_val}), pd.DataFrame({'Validation_Prediction': val_predictions})], axis=1)
 
         fig = go.Figure()
-        fig.add_trace(go.Scatter(x=df_train_actual['Dates_Training'], y=df_train_actual['Training_Actual'], mode='lines', name='Training_Actual'))
-        fig.add_trace(go.Scatter(x=df_val_actual['Dates_Validation'], y=df_val_actual['Validation_Actual'], mode='lines', name='Validation_Actual'))
-        fig.add_trace(go.Scatter(x=df_train_pred['Dates_Training'], y=df_train_pred['Training_Prediction'], mode='lines', name='Training_Prediction'))
-        fig.add_trace(go.Scatter(x=df_val_pred['Dates_Validation'], y=df_val_pred['Validation_Prediction'], mode='lines', name='Validation_Prediction'))
-        fig.update_layout(xaxis_title='Date', yaxis_title='Value', legend_title='Legend')
+        fig.add_trace(go.Scatter(x=df_train_actual['Dates_Training'], y=df_train_actual['Training_Actual'], mode='lines+markers', name='Training_Actual'))
+        fig.add_trace(go.Scatter(x=df_val_actual['Dates_Validation'], y=df_val_actual['Validation_Actual'], mode='lines+markers', name='Validation_Actual'))
+        fig.add_trace(go.Scatter(x=df_train_pred['Dates_Training'], y=df_train_pred['Training_Prediction'], mode='lines+markers', name='Training_Prediction'))
+        fig.add_trace(go.Scatter(x=df_val_pred['Dates_Validation'], y=df_val_pred['Validation_Prediction'], mode='lines+markers', name='Validation_Prediction'))
+        fig.update_layout(xaxis_title='Date', yaxis_title='Stock Price (USD)', legend_title='Legend')
         
         st.subheader('Have a look at the model performance, interactively:')
         st.plotly_chart(fig)
