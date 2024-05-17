@@ -1,5 +1,5 @@
 # Nvidia-Stock-Price-Prediction
-### Course Project for COSC480 - Computer Programming at the University of Canterbury
+## Course Project for COSC480 - Computer Programming at the University of Canterbury
 - Language: **Python**
 - Tools and Libraries:
   - Extract Nvidia Stock Data: **yfinance**
