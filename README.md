@@ -5,8 +5,8 @@
   - Extract Nvidia Stock Data: **yfinance**
   - Data Wrangling and Visualization: **Pandas**, **NumPy**, **Plotly**
   - LSTM Modeling and Prediction: **TensorFlow Keras**
-  - Web APP Dev: **Streamlit**
-## 2. Play with Web APP:
+  - Dashboard App Dev: **Streamlit**
+## 2. Play with Web Dashboard:
 - Service: Streamlit Community Cloud
 - Link: https://nvidia-stock-price-prediction.streamlit.app/
 ## 3. Run on Local Machine: 
