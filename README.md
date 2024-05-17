@@ -7,7 +7,7 @@
   - LSTM Modeling and Prediction: **TensorFlow Keras**
   - Web APP Dev: **Streamlit**
 ### Play with Web APP:
-- Platform: Streamlit Community Cloud
+- Service: Streamlit Community Cloud
 - Link: https://nvidia-stock-price-prediction.streamlit.app/
 ### Run on Local Machine: 
 - Install above Python libraries in a new **conda** environment.
