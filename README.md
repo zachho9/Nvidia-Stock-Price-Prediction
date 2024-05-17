@@ -10,5 +10,5 @@
 - Platform: Streamlit Community Cloud
 - Link: https://nvidia-stock-price-prediction.streamlit.app/
 ### Run on Local Machine: 
-- Install above Python libraries in **conda**.
+- Install above Python libraries in a new **conda** environment.
 - ```streamlit run nvda.py```
