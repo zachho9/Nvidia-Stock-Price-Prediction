@@ -272,6 +272,11 @@ def run_app():
     st.header('Section 2 - Stock Trend Analysis', divider='rainbow')
 
     if st.button('Let\'s analyse'):
+
+        # Reload file
+        filename = 'nvda_close'
+        df = read_df(filename)
+        
         # Use streamlit slider to explore any time range within the full data.
         st.subheader('Move the slider to choose a time range:')
         start_date, end_date = st.slider('', 
@@ -326,6 +331,10 @@ def run_app():
     
     if st.button('Let\'s predict'):
         st.markdown('***Stock prediction is not easy, it will take a while...***')
+
+        # Reload file
+        filename = 'nvda_close'
+        df = read_df(filename)
         
         # Prepare data for modeling
         windowed_df = get_windowed_df(df, window_size=3)
