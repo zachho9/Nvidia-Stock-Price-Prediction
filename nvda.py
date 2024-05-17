@@ -253,7 +253,7 @@ def run_app():
     
     # Add a button to control the process
     st.subheader("Click the button to start:")
-    if st.button('Let\'s go', type='primary'):
+    if st.button('Let\'s go'):
         stock_data = get_stock_data('NVDA', '2000-01-01', end_date, '1d')
         df, filename = convert_date_column(stock_data, 'nvda_close')
             
