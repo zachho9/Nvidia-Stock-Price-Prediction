@@ -252,8 +252,8 @@ def run_app():
         return
     
     # Add a button to control the process
-    st.subheader("Click the button to start:")
-    if st.button('Let\'s go'):
+    st.subheader("Click the button to load price data:")
+    if st.button('Let\'s load'):
         stock_data = get_stock_data('NVDA', '2000-01-01', end_date, '1d')
         df, filename = convert_date_column(stock_data, 'nvda_close')
             
@@ -267,10 +267,11 @@ def run_app():
         full_chart = PriceChart(df)
         full_chart.plot_chart()
         
-        
-        ###  SECTION 2 - Exploratory Stock Analysis
-        st.header('Section 2 - Stock Trend Analysis', divider='rainbow')
-        
+    
+    ###  SECTION 2 - Exploratory Stock Analysis
+    st.header('Section 2 - Stock Trend Analysis', divider='rainbow')
+
+    if st.button('Let\'s analyse'):
         # Use streamlit slider to explore any time range within the full data.
         st.subheader('Move the slider to choose a time range:')
         start_date, end_date = st.slider('', 
@@ -320,8 +321,10 @@ def run_app():
         st.write(f"- Maximum Gain / Maximum Loss (difference between max and min price): {max_gain_loss:.2f}%")
         
         
-        ###  SECTION 3 - Stock Price Prediction with LSTM
-        st.header('Section 3 - Stock Price Prediction with LSTM', divider='rainbow')
+    ###  SECTION 3 - Stock Price Prediction with LSTM
+    st.header('Section 3 - Stock Price Prediction with LSTM', divider='rainbow')
+    
+    if st.button('Let\'s predict'):
         st.markdown('***Stock prediction is not easy, it will take a while...***')
         
         # Prepare data for modeling
