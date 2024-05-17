@@ -223,6 +223,22 @@ def get_windowed_df_unseen(_model, df, num_new_days=5, window_size=3):
     return windowed_df_unseen
 
 
+def click_button_switch():
+    """Reference: https://docs.streamlit.io/develop/concepts/design/buttons
+       Date: 17-May-2024
+    """
+    st.session_state.button = not st.session_state.button
+
+
+def date_changed():
+    """Reference: https://docs.streamlit.io/develop/api-reference/caching-and-state/st.session_state
+       Date: 17-May-2024
+    """
+    if st.session_state.date != st.session_state.prev_date:
+        st.session_state.button = False
+        st.session_state.prev_date = st.session_state.date
+
+
 def run_app():
     """Main function to run the program"""
 
@@ -231,12 +247,19 @@ def run_app():
     st.write("- Date format is YYYY-MM-DD.\n - The data starts from 2000-01-01.\n - Please select a valid End Date to proceed.\n - The data contained trading day only.")
     
     
-    ### SECTION 1 - Extract data and save to csv.
+    ### SECTION 1 - Extract data and save to csv
+    
     st.header('Section 1 - Extract Stock Price Data', divider='rainbow')
     st.subheader("Please choose an End Date:")
     
+    if 'prev_date' not in st.session_state:
+        st.session_state.prev_date = ""
+    
+    if 'button' not in st.session_state:
+        st.session_state.button = False
+    
     today = datetime.date.today()
-    end_date = st.date_input("Choose an End Date after 2000-01-01, but before Today! Error will occur if you don't. Try if you insist:", value='today', format='YYYY-MM-DD')
+    end_date = st.date_input("Choose an End Date after 2000-01-01, but before Today! Error will occur if you don't. Try if you insist:", value='today', key='date', on_change=date_changed, format='YYYY-MM-DD')
     
     if end_date > datetime.datetime.strptime('2000-01-01', '%Y-%m-%d').date() and end_date <= today:
         st.write("The End Date you select is:", end_date, ". But End Date is not included in the full data.")
@@ -247,120 +270,131 @@ def run_app():
     else:
         st.write("Cool! You successfully select a date before 2000-01-01. However, your request cannot be proceeded. Please select a valid date.")
         return
-    
-    stock_data = get_stock_data('NVDA', '2000-01-01', end_date, '1d')
-    df, filename = convert_date_column(stock_data, 'nvda_close')
-        
-    # Read data and from saved csv.
-    filename = 'nvda_close'
-    df = read_df(filename)
-    
-    # Plot the whole price chart
-    st.subheader("Have a look at the chart, and play with it:")
-    st.write(f"Nvidia Stock Price Chart from 2000-01-01 to {df.index[-1].date()}:")
-    full_chart = PriceChart(df)
-    full_chart.plot_chart()
-        
-    
-    ###  SECTION 2 - Exploratory Stock Analysis
-    
-    st.header('Section 2 - Stock Trend Analysis', divider='rainbow')
 
-    # Reload file
-    filename = 'nvda_close'
-    df = read_df(filename)
+            
+    st.button('Click to Run or Stop', on_click=click_button_switch, type='primary')
     
-    # Use streamlit slider to explore any time range within the full data.
-    st.subheader('Move the slider to choose a time range:')
-    start_date, end_date = st.slider('', 
-                                    min_value=df.index[0].date(),
-                                    max_value=df.index[-1].date(),
-                                    value=(df.index[0].date(), df.index[-1].date()),
-                                    format='YYYY-MM-DD')
-    start_date = pd.to_datetime(start_date)
-    end_date = pd.to_datetime(end_date)
-    df_se2 = copy.deepcopy(df)
-    df_se2 = df_se2.loc[start_date:end_date]
-    st.write('Nvidia Stock Price Chart in the selected range:')
-    se2_chart = PriceChart(df_se2)
-    se2_chart.plot_chart()
+    if st.session_state.button:
+        
+        st.write('App is Running!')
+        
+        stock_data = get_stock_data('NVDA', '2000-01-01', end_date, '1d')
+        df, filename = convert_date_column(stock_data, 'nvda_close')
+       
+        # Read data and from saved csv.
+        filename = 'nvda_close'
+        df = read_df(filename)
+        
+        # Plot the whole price chart
+        st.subheader("Have a look at the chart, and play with it:")
+        st.write(f"Nvidia Stock Price Chart from 2000-01-01 to {df.index[-1].date()}:")
+        full_chart = PriceChart(df)
+        full_chart.plot_chart()
+        
     
-    # Showcase the key indicators for stock analysis
-    st.subheader('Have a look at these Key Indicators:')
+        ###  SECTION 2 - Exploratory Stock Analysis
+        
+        st.header('Section 2 - Stock Trend Analysis', divider='rainbow')
     
-    start_price_in_range = df_se2.iloc[0,0]
-    end_price_in_range = df_se2.iloc[-1,0]
-    max_price_in_range = df_se2.iloc[:,0].max()
-    min_price_in_range = df_se2.iloc[:,0].min()
+
+        # Reload file
+        filename = 'nvda_close'
+        df = read_df(filename)
+        
+        # Use streamlit slider to explore any time range within the full data.
+        st.subheader('Move the slider to choose a time range:')
+        start_date, end_date = st.slider('', 
+                                        min_value=df.index[0].date(),
+                                        max_value=df.index[-1].date(),
+                                        value=(df.index[0].date(), df.index[-1].date()),
+                                        format='YYYY-MM-DD')
+        start_date = pd.to_datetime(start_date)
+        end_date = pd.to_datetime(end_date)
+        df_se2 = copy.deepcopy(df)
+        df_se2 = df_se2.loc[start_date:end_date]
+        st.write('Nvidia Stock Price Chart in the selected range:')
+        se2_chart = PriceChart(df_se2)
+        se2_chart.plot_chart()
+        
+        # Showcase the key indicators for stock analysis
+        st.subheader('Have a look at these Key Indicators:')
+        
+        start_price_in_range = df_se2.iloc[0,0]
+        end_price_in_range = df_se2.iloc[-1,0]
+        max_price_in_range = df_se2.iloc[:,0].max()
+        min_price_in_range = df_se2.iloc[:,0].min()
+        
+        start_price_date = df_se2.index[df_se2['Close'] == start_price_in_range][0].date()
+        end_price_date = df_se2.index[df_se2['Close'] == end_price_in_range][0].date()
+        max_price_date = df_se2.index[df_se2['Close'] == max_price_in_range][0].date()
+        min_price_date = df_se2.index[df_se2['Close'] == min_price_in_range][0].date()
+        
+        df_se2_range = pd.DataFrame({'Indicators': ['Start Price', 'End Price', 'Max Price', 'Min Price'],
+                                    'Prices': [start_price_in_range, end_price_in_range, max_price_in_range, min_price_in_range],
+                                    'On Dates': [start_price_date, end_price_date, max_price_date, min_price_date]})
+        df_se2_range['Prices'] = df_se2_range['Prices'].round(4).apply(lambda x: f"{x:.4f}")
+        st.dataframe(df_se2_range, use_container_width=True)
+        
+        st.subheader('The ROI (Return on Investment) in the selected range:')
+        
+        # Holding Price Return
+        holding_period_return = (end_price_in_range - start_price_in_range) / start_price_in_range * 100
+        st.write(f"- Holding Period Return (buy at start date, sell at end date): {holding_period_return:.2f}%")
+        
+        # Maximum Gain or Maximum Loss
+        if max_price_date < min_price_date:
+            max_gain_loss = (min_price_in_range - max_price_in_range) / max_price_in_range * 100
+        else:
+            max_gain_loss = (max_price_in_range - min_price_in_range) / min_price_in_range * 100
+
+        st.write(f"- Maximum Gain / Maximum Loss (difference between max and min price): {max_gain_loss:.2f}%")
+        
+        
+        ###  SECTION 3 - Stock Price Prediction with LSTM
     
-    start_price_date = df_se2.index[df_se2['Close'] == start_price_in_range][0].date()
-    end_price_date = df_se2.index[df_se2['Close'] == end_price_in_range][0].date()
-    max_price_date = df_se2.index[df_se2['Close'] == max_price_in_range][0].date()
-    min_price_date = df_se2.index[df_se2['Close'] == min_price_in_range][0].date()
+        st.header('Section 3 - Stock Price Prediction with LSTM', divider='rainbow')
     
-    df_se2_range = pd.DataFrame({'Indicators': ['Start Price', 'End Price', 'Max Price', 'Min Price'],
-                                'Prices': [start_price_in_range, end_price_in_range, max_price_in_range, min_price_in_range],
-                                'On Dates': [start_price_date, end_price_date, max_price_date, min_price_date]})
-    df_se2_range['Prices'] = df_se2_range['Prices'].round(4).apply(lambda x: f"{x:.4f}")
-    st.dataframe(df_se2_range, use_container_width=True)
-    
-    st.subheader('The ROI (Return on Investment) in the selected range:')
-    
-    # Holding Price Return
-    holding_period_return = (end_price_in_range - start_price_in_range) / start_price_in_range * 100
-    st.write(f"- Holding Period Return (buy at start date, sell at end date): {holding_period_return:.2f}%")
-    
-    # Maximum Gain or Maximum Loss
-    if max_price_date < min_price_date:
-        max_gain_loss = (min_price_in_range - max_price_in_range) / max_price_in_range * 100
+        st.markdown('***Stock prediction is not easy, it will take a while...***')
+
+        # Reload file
+        filename = 'nvda_close'
+        df = read_df(filename)
+        
+        # Prepare data for modeling
+        windowed_df = get_windowed_df(df, window_size=3)
+        dates_train, X_train, y_train, dates_val, X_val, y_val = split_train_val(windowed_df)
+        
+        # LSTM model building, training, and predicting
+        model = build_model(X_train)
+        train_predictions, val_predictions = pred_train(model, X_train, y_train, X_val, y_val)
+
+        # Plot actual and predicted result for training and validation set
+        df_train_actual = pd.concat([pd.DataFrame({'Dates_Training': dates_train}), pd.DataFrame({'Training_Actual': y_train})], axis=1)
+        df_val_actual = pd.concat([pd.DataFrame({'Dates_Validation': dates_val}), pd.DataFrame({'Validation_Actual': y_val})], axis=1)
+        df_train_pred = pd.concat([pd.DataFrame({'Dates_Training': dates_train}), pd.DataFrame({'Training_Prediction': train_predictions})], axis=1)
+        df_val_pred = pd.concat([pd.DataFrame({'Dates_Validation': dates_val}), pd.DataFrame({'Validation_Prediction': val_predictions})], axis=1)
+
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=df_train_actual['Dates_Training'], y=df_train_actual['Training_Actual'], mode='lines', name='Training_Actual'))
+        fig.add_trace(go.Scatter(x=df_val_actual['Dates_Validation'], y=df_val_actual['Validation_Actual'], mode='lines', name='Validation_Actual'))
+        fig.add_trace(go.Scatter(x=df_train_pred['Dates_Training'], y=df_train_pred['Training_Prediction'], mode='lines', name='Training_Prediction'))
+        fig.add_trace(go.Scatter(x=df_val_pred['Dates_Validation'], y=df_val_pred['Validation_Prediction'], mode='lines', name='Validation_Prediction'))
+        fig.update_layout(xaxis_title='Date', yaxis_title='Value', legend_title='Legend')
+        
+        st.subheader('Have a look at the model performance, interactively:')
+        st.plotly_chart(fig)
+        
+        # Print predicted data on unseen data
+        st.subheader('Now let\'s predict for the next 5 trading days:')
+        st.write('The accuracy will reduce significantly if predicting too long afterwards.')
+        
+        windowed_df_unseen = copy.deepcopy(windowed_df)
+        new_df_unseen = get_windowed_df_unseen(model, df=windowed_df_unseen, num_new_days=5, window_size=3)
+        st.dataframe(new_df_unseen[['Date', 'Close']].tail(5), use_container_width=True)
+
+        st.markdown('**Reminder! The prediction is just for fun. Do Your Own Research before investing your money.**')
+
     else:
-        max_gain_loss = (max_price_in_range - min_price_in_range) / min_price_in_range * 100
-
-    st.write(f"- Maximum Gain / Maximum Loss (difference between max and min price): {max_gain_loss:.2f}%")
+        st.write('App not Running...')
     
-        
-    ###  SECTION 3 - Stock Price Prediction with LSTM
-    
-    st.header('Section 3 - Stock Price Prediction with LSTM', divider='rainbow')
-    
-    st.markdown('***Stock prediction is not easy, it will take a while...***')
-
-    # Reload file
-    filename = 'nvda_close'
-    df = read_df(filename)
-    
-    # Prepare data for modeling
-    windowed_df = get_windowed_df(df, window_size=3)
-    dates_train, X_train, y_train, dates_val, X_val, y_val = split_train_val(windowed_df)
-    
-    # LSTM model building, training, and predicting
-    model = build_model(X_train)
-    train_predictions, val_predictions = pred_train(model, X_train, y_train, X_val, y_val)
-
-    # Plot actual and predicted result for training and validation set
-    df_train_actual = pd.concat([pd.DataFrame({'Dates_Training': dates_train}), pd.DataFrame({'Training_Actual': y_train})], axis=1)
-    df_val_actual = pd.concat([pd.DataFrame({'Dates_Validation': dates_val}), pd.DataFrame({'Validation_Actual': y_val})], axis=1)
-    df_train_pred = pd.concat([pd.DataFrame({'Dates_Training': dates_train}), pd.DataFrame({'Training_Prediction': train_predictions})], axis=1)
-    df_val_pred = pd.concat([pd.DataFrame({'Dates_Validation': dates_val}), pd.DataFrame({'Validation_Prediction': val_predictions})], axis=1)
-
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=df_train_actual['Dates_Training'], y=df_train_actual['Training_Actual'], mode='lines', name='Training_Actual'))
-    fig.add_trace(go.Scatter(x=df_val_actual['Dates_Validation'], y=df_val_actual['Validation_Actual'], mode='lines', name='Validation_Actual'))
-    fig.add_trace(go.Scatter(x=df_train_pred['Dates_Training'], y=df_train_pred['Training_Prediction'], mode='lines', name='Training_Prediction'))
-    fig.add_trace(go.Scatter(x=df_val_pred['Dates_Validation'], y=df_val_pred['Validation_Prediction'], mode='lines', name='Validation_Prediction'))
-    fig.update_layout(xaxis_title='Date', yaxis_title='Value', legend_title='Legend')
-    
-    st.subheader('Have a look at the model performance, interactively:')
-    st.plotly_chart(fig)
-    
-    # Print predicted data on unseen data
-    st.subheader('Now let\'s predict for the next 5 trading days:')
-    st.write('The accuracy will reduce significantly if predicting too long afterwards.')
-    
-    windowed_df_unseen = copy.deepcopy(windowed_df)
-    new_df_unseen = get_windowed_df_unseen(model, df=windowed_df_unseen, num_new_days=5, window_size=3)
-    st.dataframe(new_df_unseen[['Date', 'Close']].tail(5), use_container_width=True)
-
-    st.markdown('**Reminder! The prediction is just for fun. Do Your Own Research before investing your money.**')
-
 run_app()
