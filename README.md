@@ -1,7 +1,7 @@
 # Nvidia-Stock-Price-Prediction
 ### Course Project for COSC480 - Computer Programming at the University of Canterbury
 - Language: **Python**
-- Tools:
+- Tools and Libraries:
   - Extract Nvidia Stock Data: **yfinance**
   - Data Wrangling and Visualization: **Pandas**, **NumPy**, **Plotly**
   - LSTM Modeling and Prediction: **TensorFlow Keras**
