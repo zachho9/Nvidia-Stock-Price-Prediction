@@ -222,14 +222,14 @@ def get_windowed_df_unseen(_model, df, num_new_days=5, window_size=3):
 
     return windowed_df_unseen
 
-
+# Streamlit Session State Function 1, callback in st.button
 def click_button_switch():
     """Reference: https://docs.streamlit.io/develop/concepts/design/buttons
        Date: 17-May-2024
     """
     st.session_state.button = not st.session_state.button
 
-
+# Streamlit Session State Function 2, callback in st.date_input
 def date_changed():
     """Reference: https://docs.streamlit.io/develop/api-reference/caching-and-state/st.session_state
        Date: 17-May-2024
@@ -251,10 +251,10 @@ def run_app():
     
     st.header('Section 1 - Extract Stock Price Data', divider='rainbow')
     st.subheader("Please choose an End Date:")
-    
+
+    # Initialize session state for streamlit
     if 'prev_date' not in st.session_state:
         st.session_state.prev_date = ""
-    
     if 'button' not in st.session_state:
         st.session_state.button = False
     
