@@ -32,6 +32,7 @@ class PriceChart:
 
 ## SECTION 1: extract Nvidia stock data from Yahoo! Finance.
 
+
 @st.cache_data
 def get_stock_data(ticker, start_date, end_date, interval):
     """Extract stock data from Yahoo! Finance with yfinance.
@@ -67,6 +68,7 @@ def convert_date_column(stock_data, filename):
 
 ## SECTION 3: Predict Nvidia stock price
 
+
 # @st.cache_data
 def read_df(filename):
     """Load local csv file in case web data unobtainable."""
@@ -86,6 +88,7 @@ def get_windowed_df(df, window_size=3):
        Reference: https://www.youtube.com/watch?v=CbTU92pbDKw
        Accessed Date: 21-Apr-2024.
     """
+    
     X = []
     y = []
     date_id = []
@@ -115,6 +118,7 @@ def split_train_val(windowed_df):
        Reference: https://www.youtube.com/watch?v=CbTU92pbDKw
        Accessed Date: 21-Apr-2024.
     """
+    
     # training set starts from the first trading day of 2023, which is 03-Jan-2023
     train_start_row = windowed_df.index[windowed_df['Date']== '2023-01-03'].tolist()[0]
 
@@ -146,6 +150,7 @@ def build_model(X_train):
        Reference: https://www.youtube.com/watch?v=CbTU92pbDKw
        Accessed Date: 21-Apr-2024.
     """
+    
     # Build LSTM model
     model = Sequential([layers.Input((X_train.shape[1], 1)),
                         layers.LSTM(64),
@@ -173,6 +178,7 @@ def pred_train(_model, X_train, y_train, X_val, y_val):
        Reference: https://www.youtube.com/watch?v=CbTU92pbDKw
        Accessed Date: 21-Apr-2024.
     """
+    
     _model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=100)
     train_predictions = _model.predict(X_train).flatten()
     val_predictions = _model.predict(X_val).flatten()
@@ -183,6 +189,8 @@ def pred_train(_model, X_train, y_train, X_val, y_val):
 @st.cache_resource
 def get_windowed_df_unseen(_model, df, num_new_days=5, window_size=3):
     """Generate predicted data for next 5 trading days.
+       Reference: https://www.youtube.com/watch?v=CbTU92pbDKw
+       Accessed Date: 21-Apr-2024.
     """
 
     # Get the last day and its price of known data
@@ -222,12 +230,14 @@ def get_windowed_df_unseen(_model, df, num_new_days=5, window_size=3):
 
     return windowed_df_unseen
 
+
 # Streamlit Session State Function 1, callback in st.button
 def click_button_switch():
     """Reference: https://docs.streamlit.io/develop/concepts/design/buttons
        Date: 17-May-2024
     """
     st.session_state.button = not st.session_state.button
+
 
 # Streamlit Session State Function 2, callback in st.date_input
 def date_changed():
@@ -248,6 +258,7 @@ def run_app():
     
     
     ### SECTION 1 - Extract data and save to csv
+    
     
     st.header('Section 1 - Extract Stock Price Data', divider='rainbow')
     st.subheader("Please choose an End Date:")
@@ -270,8 +281,7 @@ def run_app():
     else:
         st.write("Cool! You successfully select a date before 2000-01-01. However, your request cannot be proceeded. Please select a valid date.")
         return
-
-            
+    
     st.button('Click to Run or Stop', on_click=click_button_switch, type='primary')
     
     if st.session_state.button:
@@ -294,8 +304,8 @@ def run_app():
     
         ###  SECTION 2 - Exploratory Stock Analysis
         
+        
         st.header('Section 2 - Stock Trend Analysis', divider='rainbow')
-    
 
         # Reload file
         filename = 'nvda_close'
@@ -352,6 +362,7 @@ def run_app():
         
         ###  SECTION 3 - Stock Price Prediction with LSTM
     
+    
         st.header('Section 3 - Stock Price Prediction with LSTM', divider='rainbow')
     
         st.markdown('***Stock prediction is not easy, it will take a while...***')
@@ -374,6 +385,8 @@ def run_app():
         df_train_pred = pd.concat([pd.DataFrame({'Dates_Training': dates_train}), pd.DataFrame({'Training_Prediction': train_predictions})], axis=1)
         df_val_pred = pd.concat([pd.DataFrame({'Dates_Validation': dates_val}), pd.DataFrame({'Validation_Prediction': val_predictions})], axis=1)
 
+        # Reference https://discuss.streamlit.io/t/plot-multiple-line-chart-in-a-single-line-chart/66339/9
+        # Date: 13-May-2024
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=df_train_actual['Dates_Training'], y=df_train_actual['Training_Actual'], mode='lines+markers', name='Training_Actual'))
         fig.add_trace(go.Scatter(x=df_val_actual['Dates_Validation'], y=df_val_actual['Validation_Actual'], mode='lines+markers', name='Validation_Actual'))
