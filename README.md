@@ -10,6 +10,6 @@
 - Service: Streamlit Community Cloud
 - Link: https://nvidia-stock-price-prediction.streamlit.app/
 ## Run on Local Machine: 
-- Create a new **conda** TensorFlow environment.
+- Create and activate a new **conda** TensorFlow environment.
 - Install above Python libraries.
-- ```streamlit run nvda.py```
+- ```python -m streamlit run nvda.py```
