@@ -390,10 +390,10 @@ def run_app():
         # And https://plotly.com/python/creating-and-updating-figures/
         # Date: 13-May-2024
         fig = go.Figure()
-        fig.add_trace(go.Scatter(x=df_train_actual['Dates_Training'], y=df_train_actual['Training_Actual'], mode='lines+markers', name='Training_Actual'))
-        fig.add_trace(go.Scatter(x=df_val_actual['Dates_Validation'], y=df_val_actual['Validation_Actual'], mode='lines+markers', name='Validation_Actual'))
-        fig.add_trace(go.Scatter(x=df_train_pred['Dates_Training'], y=df_train_pred['Training_Prediction'], mode='lines+markers', name='Training_Prediction'))
-        fig.add_trace(go.Scatter(x=df_val_pred['Dates_Validation'], y=df_val_pred['Validation_Prediction'], mode='lines+markers', name='Validation_Prediction'))
+        fig.add_trace(go.Scatter(x=df_train_actual['Dates_Training'], y=df_train_actual['Training_Actual'], mode='lines+markers', name='Training_Actual', line=dict(color='#11A0D9')))
+        fig.add_trace(go.Scatter(x=df_val_actual['Dates_Validation'], y=df_val_actual['Validation_Actual'], mode='lines+markers', name='Validation_Actual', line=dict(color='#6FB07F')))
+        fig.add_trace(go.Scatter(x=df_train_pred['Dates_Training'], y=df_train_pred['Training_Prediction'], mode='lines+markers', name='Training_Prediction', line=dict(color='#F2B441')))
+        fig.add_trace(go.Scatter(x=df_val_pred['Dates_Validation'], y=df_val_pred['Validation_Prediction'], mode='lines+markers', name='Validation_Prediction', line=dict(color='#F2594B')))
         fig.update_layout(xaxis_title='Date', yaxis_title='Stock Price (USD)', legend_title='Legend')
         
         st.subheader('Have a look at the model performance, interactively:')
