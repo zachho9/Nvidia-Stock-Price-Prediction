@@ -385,7 +385,9 @@ def run_app():
         df_train_pred = pd.concat([pd.DataFrame({'Dates_Training': dates_train}), pd.DataFrame({'Training_Prediction': train_predictions})], axis=1)
         df_val_pred = pd.concat([pd.DataFrame({'Dates_Validation': dates_val}), pd.DataFrame({'Validation_Prediction': val_predictions})], axis=1)
 
-        # Reference https://discuss.streamlit.io/t/plot-multiple-line-chart-in-a-single-line-chart/66339/9
+        # Learn from https://discuss.streamlit.io/t/plot-multiple-line-chart-in-a-single-line-chart/66339/9
+        # And https://python-graph-gallery.com/522-plotly-customize-title/
+        # And https://plotly.com/python/creating-and-updating-figures/
         # Date: 13-May-2024
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=df_train_actual['Dates_Training'], y=df_train_actual['Training_Actual'], mode='lines+markers', name='Training_Actual'))
