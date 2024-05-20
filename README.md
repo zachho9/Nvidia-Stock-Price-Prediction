@@ -12,4 +12,4 @@
 ## Run on Local Machine: 
 - Create and activate a new **conda** TensorFlow environment.
 - Install above Python libraries.
-- ```python -m streamlit run nvda.py```
+- `python -m streamlit run nvda.py`
