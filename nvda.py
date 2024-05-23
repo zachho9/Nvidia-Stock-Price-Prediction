@@ -37,6 +37,8 @@ class PriceChart:
 def get_stock_data(ticker, start_date, end_date, interval):
     """Extract stock data from Yahoo! Finance with yfinance.
        end_date is exclusive.
+       Reference: https://aroussi.com/post/python-yahoo-finance
+       Date Accessed: 19-Apr-2024
     """
 
     stock = yf.Ticker(ticker)
@@ -86,7 +88,7 @@ def get_windowed_df(df, window_size=3):
        and the close prices of several days prior to the current day.
        The number of previous days included is determined by the parameter window_size.
        Reference: https://www.youtube.com/watch?v=CbTU92pbDKw
-       Accessed Date: 21-Apr-2024.
+       Date Accessed: 21-Apr-2024.
     """
     
     X = []
@@ -116,7 +118,7 @@ def split_train_val(windowed_df):
        until two weeks before the last day of the existing data.
        The validation set will be from that day to the last day of the existing data.
        Reference: https://www.youtube.com/watch?v=CbTU92pbDKw
-       Accessed Date: 21-Apr-2024.
+       Date Accessed: 21-Apr-2024.
     """
     
     # training set starts from the first trading day of 2023, which is 03-Jan-2023
@@ -148,7 +150,7 @@ def split_train_val(windowed_df):
 def build_model(X_train):
     """Stack LSTM Model.
        Reference: https://www.youtube.com/watch?v=CbTU92pbDKw
-       Accessed Date: 21-Apr-2024.
+       Date Accessed: 21-Apr-2024.
     """
     
     # Build LSTM model
@@ -176,7 +178,7 @@ def build_model(X_train):
 def pred_train(_model, X_train, y_train, X_val, y_val):
     """Fit and predict training set.
        Reference: https://www.youtube.com/watch?v=CbTU92pbDKw
-       Accessed Date: 21-Apr-2024.
+       Date Accessed: 21-Apr-2024.
     """
     
     _model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=100)
@@ -190,7 +192,7 @@ def pred_train(_model, X_train, y_train, X_val, y_val):
 def get_windowed_df_unseen(_model, df, num_new_days=5, window_size=3):
     """Generate predicted data for next 5 trading days.
        Reference: https://www.youtube.com/watch?v=CbTU92pbDKw
-       Accessed Date: 21-Apr-2024.
+       Date Accessed: 21-Apr-2024.
     """
 
     # Get the last day and its price of known data
@@ -234,7 +236,7 @@ def get_windowed_df_unseen(_model, df, num_new_days=5, window_size=3):
 # Streamlit Session State Function 1, callback in st.button
 def click_button_switch():
     """Reference: https://docs.streamlit.io/develop/concepts/design/buttons
-       Date: 17-May-2024
+       Date Accessed: 17-May-2024
     """
     st.session_state.button = not st.session_state.button
 
@@ -242,7 +244,7 @@ def click_button_switch():
 # Streamlit Session State Function 2, callback in st.date_input
 def date_changed():
     """Reference: https://docs.streamlit.io/develop/api-reference/caching-and-state/st.session_state
-       Date: 17-May-2024
+       Date Accessed: 17-May-2024
     """
     if st.session_state.date != st.session_state.prev_date:
         st.session_state.button = False
@@ -388,7 +390,7 @@ def run_app():
         # Learn from https://discuss.streamlit.io/t/plot-multiple-line-chart-in-a-single-line-chart/66339/9
         # And https://python-graph-gallery.com/522-plotly-customize-title/
         # And https://plotly.com/python/creating-and-updating-figures/
-        # Date: 13-May-2024
+        # Date Accessed: 13-May-2024
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=df_train_actual['Dates_Training'], y=df_train_actual['Training_Actual'], mode='lines+markers', name='Training_Actual', line=dict(color='#11A0D9')))
         fig.add_trace(go.Scatter(x=df_val_actual['Dates_Validation'], y=df_val_actual['Validation_Actual'], mode='lines+markers', name='Validation_Actual', line=dict(color='#6FB07F')))
