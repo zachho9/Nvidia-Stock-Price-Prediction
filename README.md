@@ -10,6 +10,6 @@
 - Link: https://nvidia-stock-price-prediction.streamlit.app/
 - If it falls asleep, simply click the button on that screen to wake it up.
 ## Run on Local Machine: 
-- Create and activate a new **conda** TensorFlow environment.
-- Install above Python libraries.
+- `conda create --name <ENV_NAME> --file requirements.txt`
+- `conda activate <ENV_NAME>`
 - `python -m streamlit run nvda.py`
