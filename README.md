@@ -1,3 +1,6 @@
+# Note:
+The API is currently not working (as of August 2025). Please refer to the video demonstration of the application here: https://youtu.be/xmetGvT99fw
+
 # Nvidia-Stock-Price-Prediction
 ## Toolkit
 - Language: **Python**
