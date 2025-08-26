@@ -53,7 +53,7 @@ def convert_date_column(stock_data, filename):
 
     # Convert to datetime64 but without timestamp using pandas methods
     df = stock_data.copy()
-    df['Date'] = df['Date'].dt.date
+    # df['Date'] = df['Date'].dt.date
     df['Date'] = pd.to_datetime(df['Date'])
 
     # Extract Date and Close
@@ -415,3 +415,4 @@ def run_app():
         st.write('App not Running...')
     
 run_app()
+
